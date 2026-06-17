@@ -14,7 +14,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const key = crypto.createHash("sha256").update(secretKey).digest();
+    // Memastikan kunci tepat 32-byte menggunakan Zero Padding (TANPA HASH)
+    const key = Buffer.alloc(32);
+    Buffer.from(secretKey, "utf8").copy(key);
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
 
