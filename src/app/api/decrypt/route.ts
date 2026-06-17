@@ -14,7 +14,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const key = crypto.createHash("sha256").update(secretKey).digest();
+    const key = Buffer.alloc(32);
+    Buffer.from(secretKey, "utf8").copy(key);
     const combinedBuffer = Buffer.from(encryptedText, "base64");
 
     if (combinedBuffer.length <= 16) {
